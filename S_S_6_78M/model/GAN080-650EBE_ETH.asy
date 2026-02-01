@@ -1,0 +1,44 @@
+Version 4
+SymbolType CELL
+LINE Normal -80 0 -24 0
+LINE Normal -24 -24 -24 -38
+LINE Normal -24 8 -24 -8
+LINE Normal -24 38 -24 24
+LINE Normal 16 32 16 80
+LINE Normal -24 32 16 32
+LINE Normal -24 32 -24 32
+LINE Normal -24 0 -24 0
+LINE Normal 16 -32 -24 -32
+LINE Normal 16 -80 16 -32
+LINE Normal -12 25 7 32
+LINE Normal -12 39 -12 25
+LINE Normal 7 32 -12 39
+LINE Normal 64 -23 64 -32
+LINE Normal 53 -23 64 -23
+LINE Normal 53 -9 53 -23
+LINE Normal 75 -9 53 -9
+LINE Normal 75 -23 75 -9
+LINE Normal 64 -23 75 -23
+LINE Normal 64 -9 64 0
+CIRCLE Normal 48 48 -48 -48
+TEXT 56 -16 Left 0 Zth
+WINDOW 0 32 -48 Left 1
+WINDOW 3 32 48 Left 1
+SYMATTR Value GAN080-650EBE_ETH
+SYMATTR Prefix X
+SYMATTR ModelFile GAN080-650EBE_ETH_LTspice.lib
+PIN -80 0 NONE 8
+PINATTR PinName Gate
+PINATTR SpiceOrder 2
+PIN 16 -80 NONE 8
+PINATTR PinName Drain
+PINATTR SpiceOrder 1
+PIN 16 80 NONE 8
+PINATTR PinName Source
+PINATTR SpiceOrder 3
+PIN 64 -32 RIGHT 8
+PINATTR PinName Tj
+PINATTR SpiceOrder 4
+PIN 64 0 RIGHT 8
+PINATTR PinName Tmb
+PINATTR SpiceOrder 5
