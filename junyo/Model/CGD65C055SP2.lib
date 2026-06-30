@@ -1,0 +1,202 @@
+* This library contains models of the following CGD product
+* CGD65C055SP2
+* version 0.1
+* 16/01/2025
+* CGD document CG-002188-MD
+*------------------------------------------------------------
+* CGD reserves the right to change models without notice. 
+* CGD model libraries do not represent a performance 
+* specification. Only the current datasheet of the device 
+* provides the relevant performance specification. 
+* Models provided by CGD are based on typical device 
+* performance, CGD models, therefore, do not warrant full and 
+* accurate representations of all the specifications or 
+* operating characteristics of the related semiconductor 
+* products. Neither is CGD responsible for validating or 
+* verifying simulation results in all application environments. 
+* CGD models are behavioural models. 
+* Models are widely used to evaluate device performance but 
+* they cannot model exact device performance under all 
+* conditions, neither are they designed to replace prototyping 
+* or verification. CGD provide the simulation models and data
+* 'as is' and without any representations or warranties, 
+* express or implied, including any warranty of 
+* merchantability or fitness for a particular purpose, any 
+* warranty arising from course of dealing or course of 
+* performance, or that the simulation models and data or any 
+* simulation using the simulation models and data will be 
+* error free. 
+*------------------------------------------------------------
+* This model has been tested in LTspice, SIMETRIX, and ORCAD at
+* temperatures between -25°C and 150°C.
+* This is a level–1 model. It models temperature dependence. 
+* It does not include a thermal model with self heating. 
+* In addition, it does not contain any package-related stray inductances.
+* Please note that CGD's ICeGaN® technology improves the immunity
+* against false triggering. Therefore, the voltage source of the 
+* gate driver must be able to provide at least 20 mA during
+* the turn-on of the device. 
+* The range for VDD supply voltage is 9 V to 20 V.
+* The range for the gate–driver high-state output voltage is 
+* 9 V to VDD. 
+* The recommended range of operation for VGS in on-state and VDD is 
+* 11 V to 18 V for optimum performance. 
+*------------------------------------------------------------
+* Revision notes
+* [V0.1 16/01/2025 Initial Release] 
+*------------------------------------------------------------
+.subckt CGD65C055SP2 d s vdd g 
+ .param auxh_k1=0.016 auxh_l1=5m auxh_h1=1.5m 
+ .param auxh_b1=1.6 auxh_c1=0.04 
+ .param auxh_d1=1.6 auxh_e1=0.3 
+ .param auxd_k2=0.03 auxd_l2=0 auxd_h2=-0.012 
+ .param auxd_b2=1.6 auxd_c2=0.04 auxd_p2=5 
+ .param mh_k1=5.0 mh_l1=4.2m mh_h1=1.5m 
+ .param mh_b1=1.6 mh_c1=0.04 
+ .param mh_d1=14.0 mh_e1=0.0 
+ .param mh_palq=-30u mh_pall=-1.2m mh_palc=9.2 
+ .param mh_pasq=-0.14m mh_pasl=-0.0145 mh_pasc=9.7 
+ .param mh_pblq=-3.0u mh_pbll=-9.0m mh_pblc=5.6 
+ .param mh_pbsq=-0.44m mh_pbsl=-0.030 mh_pbsc=7.3 
+ .param csa_isat=1.6m csa_l1=5m 
+ .param csa_alp=2m csa_bet=5u 
+ .param invh_k1=1m invh_l1=4m invh_h1=-4m 
+ .param invh_b1=1.6 invh_c1=0.04 
+ .param invh_m1=1.1 invh_n1=-0.08 invh_d1=0.6 invh_e1=0.009 
+ .param invh_k2=2m invh_l2=3m invh_h2=-6m 
+ .param invh_b2=1.6 invh_c2=0.04 invh_p2=3 
+ .param mc_k1=0.048 mc_l1=5m mc_h1=1.5m 
+ .param mc_b1=1.6 mc_c1=0.04 
+ .param mc_d1=1.5 mc_e1=0.55 
+ .param csi_isat=3.6m csi_l1=4.3m 
+ .param csi_alp=0.8m csi_bet=30u 
+ .param vdd_isat=0.06m vdd_l1=6.5m 
+ .param vdd_alp=0.08m vdd_bet=3u 
+ .param sdd_isat=0.74m sdd_l1=4.3m 
+ .param sdd_alp=0.2m sdd_bet=3u 
+ R_AUXL g g1 1.8 TC=11m 
+ g_auxhh g1 sn001 value {(if(v(g1,sn001)>0, 
+ + auxh_k1*(1-auxh_l1*(Temp-25))* 
+ + log(1+exp((min(6,v(sn004,sn001))-auxh_b1)/auxh_c1))* 
+ + v(g1,sn001)/ 
+ + (1+max((1-auxh_h1*(Temp-25))*(auxh_d1+auxh_e1*min(6,v(sn004,sn001))),0.1)*v(g1,sn001)), 
+ + 
+ + auxh_k1*(1-auxh_l1*(Temp-25))* 
+ + log(1+exp((min(6,v(sn004,g1))-auxh_b1)/auxh_c1))* 
+ + (-1)*v(sn001,g1)/ 
+ + (1+max((1-auxh_h1*(Temp-25))*v(sn001,g1),0.1)) 
+ + ))} 
+ g_auxdd g sn001 value {(if(v(g,sn001)>0, 
+ + 0, 
+ + auxd_k2*(1-auxd_l2*(Temp-25))* 
+ + log(1+exp((-v(g,sn001)-auxd_b2)/auxd_c2))* 
+ + v(g,sn001)/(1-auxd_p2*(1-auxd_h2*(Temp-25))*v(g,sn001)) 
+ + ))} 
+ rd drain d 0.05 TC=13.5m 
+ rs source s 2m 
+ rg gate sn001 20m 
+ g_mh drain source value {(if(v(drain,source)>0, 
+ + mh_k1*(1-mh_l1*(Temp-25))* 
+ + log(1+exp((min(6,v(gate,source))-mh_b1)/mh_c1))* 
+ + v(drain,source)/ 
+ + (1+max((1-mh_h1*(Temp-25))*(mh_d1+mh_e1*min(6,v(gate,source))),0.1)*v(drain,source)), 
+ + 
+ + mh_k1*(1-mh_l1*(Temp-25))* 
+ + log(1+exp((min(6,v(gate,drain))-mh_b1)/mh_c1))* 
+ + (-1)*v(source,drain)/ 
+ + (1+max((1-mh_h1*(Temp-25))*v(source,drain),0.1)) 
+ + ))} 
+ cgs source gate {219p} 
+ rgs source gate {3000Meg}  
+ c_gd drain gate 0.64p 
+ rdg drain gate {3000Meg}  
+ c_ds drain source 45p 
+ rds drain source {3000Meg} 
+ R_m1 source 0h {100Meg} 
+ R_m2 source 0i {100Meg} 
+ E_vf1 yhh1 0h Value = {1e1*( exp(mh_palq*v(drain, source)*v(drain, source)+mh_pall*v(drain, source)+mh_palc) + 
+ + exp(mh_pasq*(v(drain, source))*(v(drain, source))+mh_pasl*v(drain, source)+mh_pasc)) - 
+ + exp(mh_palc)-exp(mh_pasc)} 
+ R_vf1 yhh1 yhh2 {1e2} 
+ R_vh2 yhh2 0h {1e7} 
+ C_abl yhh2 yhh3 1p 
+ V_yhh yhh3 0h {0.0} 
+ F_vc1 drain source V_yhh {-1e-1} 
+ E_vf2 yhi1 0i Value = {1e1*( exp(mh_pblq*v(drain, gate)*v(drain, gate)+mh_pbll*v(drain, gate)+mh_pblc) + 
+ + exp(mh_pbsq*(v(drain, gate))*(v(drain, gate))+mh_pbsl*v(drain, gate)+mh_pbsc)) - 
+ + exp(mh_pblc)-exp(mh_pbsc)} 
+ R_vf2 yhi1 yhi2 {1e2} 
+ R_vi2 yhi2 0i {1e7} 
+ C_ab2 yhi2 yhi3 1p 
+ V_yhi yhi3 0i {0.0} 
+ F_vc2 drain gate V_yhi {-1e-1} 
+ g_clampd sn004 sn003 value {(if(v(sn004,sn003)>1.5, 
+ + (v(sn004,sn003)-1.5)*0.1, 
+ + 
+ + 0))} 
+ c_clampd sn004 sn003 {0.1p} 
+ r_clampd sn004 sn003 {1000Meg} 
+ g_clampd3 sn001 sn003 value {(if(v(sn001,sn003)>0.12, 
+ + (v(sn001,sn003)-0.12)*1.23, 
+ + 0))} 
+ g_csa g sn004 value {(min( 
+ + (v(g,sn004)*csa_bet+(csa_isat*(1-csa_l1*(Temp-25)))), 
+ + (v(g,sn004)*csa_alp) 
+ + ))} 
+ g_invh sn002 s value {(if(v(sn002,s)>0, 
+ + invh_k1*(1-invh_l1*(Temp-25))* 
+ + log(1+exp((min(6,v(g,s))-invh_b1)/invh_c1))* 
+ + ((invh_m1+invh_n1*min(6,v(g,s)))*v(sn002,s))/ 
+ + (1+(1-invh_h1*(Temp-25))*(invh_d1+invh_e1*min(6,v(g,s)))*v(sn002,s)), 
+ + 
+ + invh_k2*(1-invh_l2*(Temp-25))* 
+ + log(1+exp((min(4,v(g,s))-v(sn002,s)-invh_b2)/invh_c2))* 
+ + v(sn002,s)/(1-invh_p2*(1-invh_h2*(Temp-25))*v(sn002,s)) 
+ + ))} 
+ c_invhds s sn002 {15p} 
+ r_invhds s sn002 {1000Meg} 
+ c_invhgs s g {0.1p} 
+ r_invhgs s g {1000Meg} 
+ c_invhgd sn002 g {0.1p} 
+ r_invhgd sn002 g {1000Meg} 
+ R_MCL2 sn001 s 4300 TC=13m 
+ R_MCL sn001 sn0011 1.1 TC=11m 
+ g_mc sn0011 s value {(if(v(sn0011,s)>0, 
+ + mc_k1*(1-mc_l1*(Temp-25))* 
+ + log(1+exp((min(6,v(sn002,s))-mc_b1)/mc_c1))* 
+ + v(sn0011,s)/ 
+ + (1+max((1-mc_h1*(Temp-25))*(mc_d1+mc_e1*min(6,v(sn002,s))),0.1)*v(sn0011,s)), 
+ + 
+ + mc_k1*(1-mc_l1*(Temp-25))* 
+ + log(1+exp((min(6,v(sn002,sn0011))-mc_b1)/mc_c1))* 
+ + (-1)*v(s,sn0011)/ 
+ + (1+max((1-mc_h1*(Temp-25))*v(s,sn0011),0.1)) 
+ + ))} 
+ g_csi sn003 sn002 value {(min( 
+ + (v(sn003,sn002)*csi_bet+(csi_isat*(1-csi_l1*(Temp-25)))), 
+ + (v(sn003,sn002)*csi_alp) 
+ + ))} 
+ e_vdd6 sn003 s value {(min(6,v(vdd,s)))} 
+ g_vddreg vdd s value {(min( 
+ + (v(vdd,s)*vdd_bet+(vdd_isat*(1-vdd_l1*(Temp-25)))), 
+ + (v(vdd,s)*vdd_alp) 
+ + ))} 
+ g_sddcs vdd sddt value {(min( 
+ + (v(vdd,sddt)*sdd_bet+(sdd_isat*(1-sdd_l1*(Temp-25)))), 
+ + (v(vdd,sddt)*sdd_alp) 
+ + ))} 
+ g_sddlsw sddt s value {( 
+ + v(sddt,s)*max(v(g,s)-2.3,0)*0.0001 
+ + )} 
+ r_sddlsw sddt s 1000k 
+ g_clampd1 s g value {(if(v(s,g)>1.5, 
+ + (v(s,g)-1.5)*0.1, 
+ + 
+ + 0))} 
+ g_clampd2 g vdd value {(if(v(g,vdd)>1.5, 
+ + (v(g,vdd)-1.5)*0.1, 
+ + 
+ + 0))} 
+*-----------
+.ends
+*-----------
