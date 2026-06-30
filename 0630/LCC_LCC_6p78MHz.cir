@@ -1,0 +1,24 @@
+* LCC-LCC @ 6.78MHz  Vin=288Vrms  RL=50ohm  out~158V/3.2A
+Vin S 0 SINE(0 407.4 6780000)
+* --- primary LCC ---
+Lf1 S  P1 3.621e-07
+Cf1 P1 0  1.447e-09
+C1  P1 T1 3.562e-10
+* Tx coil (L+R1)//Cself//R2
+Ctx T1 0  6.89e-12
+R2t T1 0  2.381e+05
+R1t T1 Tm 0.03002
+Ltx Tm 0  1.865e-06
+* Rx coil
+Crx Rn 0  1.268e-11
+R2r Rn 0  4.608e+05
+R1r Rn Rm 0.06957
+Lrx Rm 0  3.18e-06
+* --- secondary LCC ---
+C2  Rn P2 1.77e-10
+Cf2 P2 0  1.741e-09
+Lf2 P2 Lo 3.165e-07
+RL  Lo 0  50
+K1  Ltx Lrx 0.0239
+.ac lin 401 6237600 7322400
+.end
