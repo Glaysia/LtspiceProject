@@ -1,0 +1,16 @@
+* LCCL-S @ 6.78 MHz  (Vin=288Vrms fund, RL=1.61ohm)
+Vin S 0 SINE(0 407.4 6780000)
+Lf  S  P  4.142e-07
+Cf  P  0  1.141e-09
+C1  P  T1 2.829e-10
+* --- Tx coil ---  (Im(Z11) 유효: L1e=2.362uH, R1=0.09362)
+Rtx T1 Tm 0.09362
+Ltx Tm 0  2.362e-06
+* --- Rx coil ---  (Im(Z22) 유효: L2e=2.509uH, R2=0.05745)
+Lrx R1n 0 2.509e-06
+Rrx R1n R1a 0.05745
+C2  R1a R2n 2.196e-10
+RL  R2n 0  1.613
+K1  Ltx Lrx 0.0198
+.ac lin 401 6102000 7458000
+.end
